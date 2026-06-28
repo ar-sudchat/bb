@@ -1,0 +1,18 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+
+# Work / source files — not part of the deployed static site
+*.py
+*.txt
+script.js
+check_js.js
+reaper-study-guide.html
+smc-x-pattern-guide.html
+
+# Heavy / unused assets
+vip pdt/
+ninja-smc/
+สรุปความรู้-ปลดล็อคการเทรด/
+pdf/*
+!pdf/SMC_Ninja_Blueprint.pdf

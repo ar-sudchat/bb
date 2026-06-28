@@ -1,0 +1,18 @@
+# Keep build context minimal — whitelist only what the site ships
+*
+
+!nginx.conf
+!index.html
+!marked.min.js
+!vip_knowledge_db.js
+!academy_hero.png
+!ninja_concept.png
+!reaper_concept.png
+!BB
+!BB/**
+!NinjaThai
+!NinjaThai/**
+!pdf
+!pdf/SMC_Ninja_Blueprint.pdf
+
+**/.DS_Store
