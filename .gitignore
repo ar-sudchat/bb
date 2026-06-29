@@ -10,9 +10,16 @@ check_js.js
 reaper-study-guide.html
 smc-x-pattern-guide.html
 
-# Heavy / unused assets
-vip pdt/
+# Unused heavy folders
 ninja-smc/
 สรุปความรู้-ปลดล็อคการเทรด/
-pdf/*
-!pdf/SMC_Ninja_Blueprint.pdf
+
+# vip pdt/: ship only the 7 referenced PDFs (compressed); ignore the rest (banners, xlsx, zip)
+vip pdt/*
+!vip pdt/1.The Market Structure.pdf
+!vip pdt/2.Demand Supply.pdf
+!vip pdt/3.Liquidity.pdf
+!vip pdt/4.Trade Setup.pdf
+!vip pdt/NEW-BASIC-TO-ADVANCE-FULL-SYS.pdf
+!vip pdt/S E-BOOK ปลดล็อคการเทรด ด้วยความลับจิตวิทยา Part1-001.pdf
+!vip pdt/S E-BOOK ปลดล็อคการเทรด ด้วยความลับจิตวิทยา Part2-002.pdf

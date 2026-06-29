@@ -7,8 +7,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 WORKDIR /usr/share/nginx/html
 RUN rm -f ./*
 
-# App entry + libs
-COPY index.html marked.min.js vip_knowledge_db.js ./
+# App entry + libs + favicon
+COPY index.html marked.min.js vip_knowledge_db.js favicon.svg ./
 
 # Root images referenced by CSS url()
 COPY academy_hero.png ninja_concept.png reaper_concept.png ./
@@ -17,7 +17,8 @@ COPY academy_hero.png ninja_concept.png reaper_concept.png ./
 COPY BB/ ./BB/
 COPY NinjaThai/ ./NinjaThai/
 
-# Only the one PDF that is actually embedded
-COPY pdf/SMC_Ninja_Blueprint.pdf ./pdf/
+# All referenced PDFs (compressed). vip pdt/ has a space → JSON COPY form.
+COPY pdf/ ./pdf/
+COPY ["vip pdt/", "./vip pdt/"]
 
 EXPOSE 80
