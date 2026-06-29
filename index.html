@@ -64,6 +64,14 @@ body {
   color: var(--ink-primary);
   line-height: 1.72;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .container {
@@ -153,11 +161,19 @@ header.app-header {
   text-transform: uppercase;
 }
 
-/* Navigation Tabs */
 nav.nav-tabs {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+nav.nav-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
@@ -174,6 +190,8 @@ nav.nav-tabs {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .tab-btn:hover {
@@ -218,7 +236,7 @@ nav.nav-tabs {
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Layout Grid for Guides */
@@ -1922,6 +1940,167 @@ body.ebook-focus-mode #vipnotes { padding: 0 !important; }
 body.ebook-focus-mode .ebook-layout { max-width: 100%; margin: 0; min-height: 100vh; padding: 20px; box-sizing: border-box; background: var(--bg-body); }
 body.ebook-focus-mode .ebook-reader-container, 
 body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
+/* Mobile Slide-in Sidebar (TOC) */
+.mobile-toc-toggle { display: none; }
+
+
+/* =========================================
+   GLOBAL RESPONSIVE DESIGN (Mobile-First)
+   ========================================= */
+
+@media (max-width: 1024px) {
+  /* Backtest Simulator */
+  .bt-grid, .bt-container {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+  }
+  .bt-chart-box {
+    width: 100%;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Global Adjustments */
+  .container {
+    padding: 0 12px;
+  }
+  .app-header {
+    padding: 12px 0;
+  }
+  .header-in {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .brand {
+    justify-content: flex-start;
+  }
+  
+  /* Navigation */
+  nav.nav-tabs {
+    padding-bottom: 6px;
+  }
+  
+  /* Grids & Cards */
+  .grid-2, .grid-3, .matrix-grid, .reaper-grid,
+  .academy-hero-card {
+    grid-template-columns: 1fr !important;
+  }
+  
+
+  .tab-content {
+    animation: none !important;
+    transform: none !important;
+    perspective: none !important;
+    filter: none !important;
+  }
+  .guide-layout, .ebook-layout, .academy-layout {
+    transform: none !important;
+  }
+
+  /* Mobile Slide-in Sidebar (TOC) */
+  .guide-sidebar, .ebook-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -320px;
+    width: 280px;
+    height: 100vh;
+    max-height: 100vh !important;
+    background: #ffffff;
+    z-index: 99999 !important;
+    padding: 20px;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    transform: none !important;
+  }
+  .guide-sidebar.open, .ebook-sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    z-index: 9998;
+    display: none;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-backdrop.show {
+    display: block;
+  }
+  
+  .mobile-toc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9997;
+    background: var(--ink-primary);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.3);
+    cursor: pointer;
+  }
+
+  /* Backtest Adjustments */
+  .bt-chart-box {
+    min-height: 250px;
+  }
+  .bt-media-container {
+    height: auto !important;
+    aspect-ratio: 16/9;
+  }
+  .bt-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Calculator Adjustments */
+  .calc-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  
+  /* E-Book Reader */
+  .ebook-layout {
+    grid-template-columns: 1fr !important;
+    display: flex;
+    flex-direction: column;
+  }
+  .ebook-reader {
+    padding: 20px 16px !important;
+  }
+  .markdown-body h1 {
+    font-size: 24px !important;
+  }
+  .markdown-body h2 {
+    font-size: 20px !important;
+  }
+  .markdown-body p, .markdown-body li {
+    font-size: 16px !important;
+  }
+  
+  /* Misc */
+  .hero-card, .shot-card {
+    padding: 16px;
+  }
+  h2.section-title {
+    font-size: 20px;
+  }
+}
 </style>
 </head>
 <body>
@@ -2408,6 +2587,8 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
   <!-- -------------------------------------------------- -->
   <div id="playbook" class="tab-content">
     <div class="guide-layout">
+    <button class="mobile-toc-toggle" onclick="toggleMobileSidebar(this)">📑 สารบัญ</button>
+
       <aside class="guide-sidebar playbook-toc">
         <div class="toc-card">
           <h4>สารบัญ Synergy</h4>
@@ -2595,6 +2776,8 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
   <!-- -------------------------------------------------- -->
   <div id="reaper" class="tab-content">
     <div class="guide-layout">
+    <button class="mobile-toc-toggle" onclick="toggleMobileSidebar(this)">📑 สารบัญ</button>
+
       
       <aside class="guide-sidebar reaper-toc">
         <div class="toc-card">
@@ -3158,6 +3341,8 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
   <!-- -------------------------------------------------- -->
   <div id="ninja" class="tab-content">
     <div class="guide-layout">
+    <button class="mobile-toc-toggle" onclick="toggleMobileSidebar(this)">📑 สารบัญ</button>
+
       
       <aside class="guide-sidebar ninja-toc">
         <div class="toc-card">
@@ -3522,6 +3707,7 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
         <option value="6">⚡ เคสที่ 6: London Opening Hunt (Session Sweep)</option>
         <option value="7">🎯 เคสที่ 7: OTE Continuation (FVG + Fib 62-79%)</option>
         <option value="8">📚 เคสที่ 8: Wyckoff Accumulation (Spring)</option>
+        <option value="9">🥷 เคสที่ 9: Break Block Follow Trend (Buy Continuation)</option>
       </select>
     </div>
 
@@ -3818,9 +4004,11 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
       <p>ศึกษาคู่มือและสไลด์ระบบเทรดระดับอาชีพ ส่งตรงจากไฟล์วิจัยของสถาบัน คัดกรองกฎระเบียบและแนวคิดสำคัญไว้ครบวงจร</p>
     </div>
 
-    <div class="academy-layout" style="display: grid; grid-template-columns: 280px 1fr; gap: 20px; min-height: 650px;">
+    <div class="academy-layout ebook-layout" >
+    <button class="mobile-toc-toggle" onclick="toggleMobileSidebar(this)">📑 สารบัญ</button>
+
       <!-- PDF List Sidebar -->
-      <div style="background: #ffffff; border: 1px solid var(--line-border); border-radius: var(--r-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; max-height: 700px; overflow-y: auto;">
+      <div class="ebook-sidebar" style="background: #ffffff; border: 1px solid var(--line-border); border-radius: var(--r-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; max-height: 700px; overflow-y: auto;">
         
         <!-- Original PDF section -->
         <h4 style="font-size: 13px; color: var(--ink-primary); margin: 0 0 8px; border-bottom: 1px solid var(--line-border); padding-bottom: 8px;">📚 ระบบเทรด (System Blueprints)</h4>
@@ -3894,6 +4082,8 @@ body.ebook-focus-mode .ebook-sidebar { max-height: calc(100vh - 40px); }
   <div id="vipnotes" class="tab-content" style="padding-bottom: 0; padding-top: 20px;">
 
     <div class="ebook-layout">
+    <button class="mobile-toc-toggle" onclick="toggleMobileSidebar(this)">📑 สารบัญ</button>
+
       <!-- Chapter List Sidebar -->
       <div class="ebook-sidebar">
         <h4 style="font-size: 13px; color: var(--ink-primary); margin: 0 0 12px; border-bottom: 1px solid var(--line-border); padding-bottom: 8px;">📚 สารบัญบทเรียน</h4>
@@ -4341,7 +4531,7 @@ const canvas = document.getElementById('practiceCanvas');
 const ctx = canvas.getContext('2d');
 let practiceScore = 0;
 let currentPracticeIdx = 0;
-let practiceAnswersState = [false, false, false, false]; // Track correctness of each question
+let practiceAnswersState = new Array(13).fill(false); // Track correctness of each question
 
 function drawGrid(targetCtx, targetCanvas) {
   targetCtx.strokeStyle = '#f1f5f9';
@@ -4547,6 +4737,184 @@ const practiceQuestions = [
       pNode(sx + 2 * sp, 210, 'LS Low', '#475569');
       pNode(sx + 5 * sp, 194, 'Higher Low (RS)', '#10b981');
       if (guessed) pSuccess(573, 148, 28);
+    }
+  }
+  ,
+  {
+    question: "เทรนขาลงเริ่มหมดแรง จุดที่เกิด CHoCH (Change of Character) สัญญาณกลับตัวแรก อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> ในขาลง ราคาทำ Lower High ต่อเนื่อง — คลิกที่ \"แท่งที่ดีดทะลุ Lower High ตัวล่าสุด\" ขึ้นไปได้ = CHoCH (ตัวละครเปลี่ยนบท)",
+    target: { x: 426, y: 100, radius: 28 },
+    candles: [
+      {o:60,h:55,l:80,c:75},{o:75,h:70,l:110,c:105},{o:105,h:75,l:110,c:80},
+      {o:80,h:75,l:130,c:125},{o:125,h:100,l:130,c:105},{o:105,h:100,l:155,c:150},
+      {o:150,h:120,l:155,c:125},{o:125,h:95,l:130,c:100},{o:100,h:70,l:105,c:75},
+      {o:75,h:70,l:95,c:90},{o:90,h:60,l:95,c:65},{o:65,h:60,l:85,c:80},
+      {o:80,h:55,l:85,c:60},{o:60,h:50,l:75,c:70}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pHLine(100, sx + 4 * sp, sx + 7.4 * sp, '#0d9488', 'Last LH');
+      pCandles(this.candles, sx, sp);
+      pNode(sx + 4 * sp, 100, 'Lower High', '#ef4444');
+      pNode(sx + 5 * sp, 155, 'Lower Low', '#475569');
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "Order Block (OB) ฝั่งซื้อ = แท่งลงไม้สุดท้ายก่อนราคาพุ่งแรง อยู่ตรงตำแหน่งใด?",
+    helper: "💡 <b>คำแนะนำ:</b> หา \"แท่งแดงไม้สุดท้าย\" ก่อนที่จะมีแท่งเขียวโมเมนตัมพุ่งขึ้นแรง — นั่นคือโซน Order Block ที่รายใหญ่ทิ้งออเดอร์ไว้",
+    target: { x: 246, y: 180, radius: 30 },
+    candles: [
+      {o:90,h:85,l:110,c:105},{o:105,h:100,l:140,c:135},{o:135,h:130,l:170,c:165},
+      {o:165,h:160,l:196,c:190},{o:190,h:140,l:195,c:145},{o:145,h:110,l:150,c:115},
+      {o:115,h:85,l:120,c:90},{o:90,h:85,l:122,c:116},{o:116,h:80,l:120,c:85},
+      {o:85,h:55,l:90,c:60},{o:60,h:55,l:80,c:75},{o:75,h:50,l:80,c:55}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pZone(sx + 2.5 * sp, 160, sx + 3.5 * sp, 196, 'rgba(2,132,199,0.10)', 'rgba(2,132,199,0.5)', 'Order Block');
+      pCandles(this.candles, sx, sp);
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "ในเทรนขาขึ้น ราคาย่อเข้าโซน OTE (Fib 62-79% / Discount) ที่ควรหาจังหวะ Buy อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> วัด Fib จากก้นสวิงขึ้นไปยอด HH — คลิกที่ \"กล่องโซนทองคำ 62-79%\" ที่ราคาย่อลงมาทำ Higher Low",
+    target: { x: 369, y: 205, radius: 28 },
+    candles: [
+      {o:250,h:245,l:255,c:248},{o:248,h:200,l:252,c:205},{o:205,h:150,l:210,c:155},
+      {o:155,h:150,l:185,c:180},{o:180,h:175,l:205,c:200},{o:200,h:194,l:212,c:208},
+      {o:208,h:175,l:212,c:180},{o:180,h:150,l:185,c:155},{o:155,h:120,l:160,c:125},
+      {o:125,h:95,l:130,c:100},{o:100,h:70,l:105,c:75},{o:75,h:60,l:90,c:85}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pZone(sx + 3 * sp, 190, sx + 6 * sp, 218, 'rgba(245,158,11,0.12)', 'rgba(217,119,6,0.5)', 'OTE 62-79% (Discount)');
+      pCandles(this.candles, sx, sp);
+      pNode(sx + 2 * sp, 150, 'HH', '#475569');
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "แนวสภาพคล่องฝั่งบน Buy-side Liquidity (Equal Highs) ที่รายใหญ่จะไปกวาด อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> หา \"ยอดสองยอดที่เท่ากัน (Equal Highs)\" — เหนือแนวนั้นคือบ่อ Stop Loss ฝั่ง Sell ที่รายใหญ่จะลากไปกิน คลิกที่แนว Equal Highs",
+    target: { x: 258, y: 120, radius: 30 },
+    candles: [
+      {o:200,h:195,l:215,c:210},{o:210,h:150,l:215,c:155},{o:155,h:120,l:160,c:125},
+      {o:125,h:120,l:160,c:155},{o:155,h:150,l:170,c:165},{o:165,h:122,l:170,c:127},
+      {o:127,h:122,l:165,c:160},{o:160,h:155,l:185,c:180},{o:180,h:175,l:205,c:200},
+      {o:200,h:195,l:225,c:220},{o:220,h:215,l:245,c:240},{o:240,h:235,l:262,c:258},
+      {o:258,h:252,l:278,c:272}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pHLine(121, sx + 2 * sp, sx + 5.4 * sp, '#dc2626', 'Equal Highs (BSL)');
+      pCandles(this.candles, sx, sp);
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "Breaker Block (ขาลง) = แนวรับเดิมที่ถูกทำลายแล้วกลายเป็นแนวต้าน อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> หาแนวรับที่ราคาทุบทะลุลงไป (BOS) จากนั้นคลิกที่ \"จุดที่ราคาเด้งกลับขึ้นมาทดสอบแนวเดิมจากด้านล่าง\" = Breaker (รับกลายเป็นต้าน)",
+    target: { x: 400, y: 138, radius: 28 },
+    candles: [
+      {o:70,h:65,l:90,c:85},{o:85,h:80,l:115,c:110},{o:110,h:105,l:138,c:132},
+      {o:132,h:100,l:138,c:105},{o:105,h:100,l:140,c:135},{o:135,h:130,l:175,c:170},
+      {o:170,h:140,l:175,c:145},{o:145,h:140,l:182,c:177},{o:177,h:172,l:205,c:200},
+      {o:200,h:195,l:228,c:222},{o:222,h:216,l:248,c:242},{o:242,h:236,l:262,c:256},
+      {o:256,h:250,l:278,c:272}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pHLine(136, sx + 2 * sp, sx + 6.4 * sp, '#7c3aed', 'Breaker (รับ→ต้าน)');
+      pCandles(this.candles, sx, sp);
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "Inducement (IDM) = สวิงเล็กล่อเม่าก่อนราคาถึงโซนสำคัญ (POI) อยู่ตรงตำแหน่งใด?",
+    helper: "💡 <b>คำแนะนำ:</b> ก่อนราคาจะลงไปถึงโซน Demand จริง จะมี \"สวิงพักตัวเล็ก ๆ อันแรก\" ที่ล่อให้รายย่อยเข้าก่อน คลิกที่จุดนั้น (IDM)",
+    target: { x: 246, y: 108, radius: 28 },
+    candles: [
+      {o:60,h:55,l:80,c:75},{o:75,h:70,l:110,c:105},{o:105,h:100,l:130,c:125},
+      {o:125,h:108,l:130,c:112},{o:112,h:108,l:150,c:145},{o:145,h:140,l:178,c:174},
+      {o:174,h:120,l:178,c:125},{o:125,h:95,l:130,c:100},{o:100,h:70,l:105,c:75},
+      {o:75,h:70,l:95,c:90},{o:90,h:60,l:95,c:65},{o:65,h:55,l:80,c:75}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pZone(sx + 4.5 * sp, 160, sx + 5.6 * sp, 180, 'rgba(2,132,199,0.08)', 'rgba(2,132,199,0.4)', 'Demand (POI)');
+      pCandles(this.candles, sx, sp);
+      pNode(sx + 3 * sp, 108, 'IDM (สิ่งล่อใจ)', '#d97706');
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "ตามหลัก Premium/Discount โซน \"Premium\" (ราคาแพง เหนือ 50%) ที่ควรหาจังหวะ Sell อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> วัดจากสวิงไฮถึงสวิงโลว์ — ครึ่งบน (เหนือ 50%) คือโซน Premium ของแพง คลิกที่กล่องโซน Premium ที่ราคาเด้งขึ้นไป",
+    target: { x: 366, y: 135, radius: 28 },
+    candles: [
+      {o:120,h:115,l:140,c:135},{o:135,h:130,l:175,c:170},{o:170,h:165,l:205,c:200},
+      {o:200,h:150,l:205,c:155},{o:155,h:130,l:160,c:135},{o:135,h:128,l:150,c:145},
+      {o:145,h:140,l:180,c:175},{o:175,h:170,l:205,c:200},{o:200,h:195,l:230,c:225},
+      {o:225,h:220,l:250,c:245},{o:245,h:240,l:265,c:260}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pZone(sx + 2.6 * sp, 120, sx + 6 * sp, 162, 'rgba(239,68,68,0.07)', 'rgba(239,68,68,0.4)', 'Premium (ขาย)');
+      pHLine(162, sx + 0.2 * sp, sx + 8 * sp, '#94a3b8', '50% (Equilibrium)');
+      pCandles(this.candles, sx, sp);
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  },
+  {
+    question: "รูปแบบ Wyckoff: จุด \"Spring\" ที่ทิ่มกวาดใต้แนวรับของกรอบสะสมแล้วดีดกลับ อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> ในกรอบ Sideway หา \"ไส้เทียนยาวที่แทงทะลุใต้แนวรับลงไปแล้วปิดดีดกลับเข้ากรอบ\" = Spring (กับดักหลอกขายไม้สุดท้าย)",
+    target: { x: 457, y: 210, radius: 30 },
+    candles: [
+      {o:160,h:155,l:178,c:172},{o:172,h:150,l:178,c:156},{o:156,h:150,l:178,c:174},
+      {o:174,h:152,l:178,c:158},{o:158,h:150,l:177,c:172},{o:172,h:152,l:178,c:158},
+      {o:158,h:152,l:176,c:170},{o:170,h:165,l:216,c:174},{o:174,h:140,l:178,c:145},
+      {o:145,h:115,l:150,c:120},{o:120,h:90,l:125,c:95},{o:95,h:65,l:100,c:70},
+      {o:70,h:60,l:90,c:85}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pHLine(177, sx + 0.5 * sp, sx + 7 * sp, '#94a3b8', 'Support (กรอบสะสม)');
+      pCandles(this.candles, sx, sp);
+      pNode(sx + 7 * sp, 150, 'Spring', '#dc2626');
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
+    }
+  }
+  ,
+  {
+    question: "กลยุทธ์ Break Block Follow Trend: หลังราคาเบรกโครงสร้าง (BOS) ขึ้น แล้วย่อกลับมาทดสอบ \"โซนส่งเบรก\" (Demand ส่งเบรก) จุดที่ควรตั้ง Buy ตามเทรนด์อยู่ตรงไหน?",
+    helper: "💡 <b>คำแนะนำ:</b> หาแนว High เดิมที่เพิ่งโดนเบรก (ตอนนี้ Flip เป็นแนวรับ) แล้วคลิกที่ \"แท่งที่ย่อลงมาแตะโซนแล้วเด้งกลับขึ้น\" = Break Block (กล่องสีเขียว)",
+    target: { x: 610, y: 119, radius: 36 },
+    candles: [
+      {o:230,h:225,l:240,c:236},{o:236,h:200,l:240,c:205},{o:205,h:160,l:210,c:165},
+      {o:165,h:118,l:170,c:124},{o:124,h:118,l:150,c:145},{o:145,h:140,l:165,c:160},
+      {o:160,h:135,l:165,c:140},{o:140,h:95,l:144,c:100},{o:100,h:95,l:118,c:113},
+      {o:113,h:108,l:124,c:120},{o:120,h:100,l:124,c:105},{o:105,h:70,l:110,c:75},
+      {o:75,h:55,l:90,c:85}
+    ],
+    draw: function(c, cx, guessed) {
+      const sx = 60, sp = (740 - 60) / (this.candles.length - 1);
+      pSetup(); pFit(this.candles); pGrid();
+      pHLine(118, sx + 3 * sp, sx + 7.4 * sp, '#dc2626', 'High เดิม (BOS)');
+      pZone(sx + 7.6 * sp, 112, sx + 10.6 * sp, 125, 'rgba(16,185,129,0.08)', 'rgba(16,185,129,0.5)', 'Break Block (Flip Support)');
+      pCandles(this.candles, sx, sp);
+      pNode(sx + 3 * sp, 118, 'High 1', '#ef4444');
+      pNode(sx + 6 * sp, 165, 'HL', '#0d9488');
+      if (guessed) pSuccess(this.target.x, this.target.y, this.target.radius);
     }
   }
 ];
@@ -5324,6 +5692,75 @@ const backtestScenarios = {
         visibleCandles: 22
       }
     ]
+  },
+  9: {
+    title: "Break Block Follow Trend (Buy Continuation)",
+    asset: "XAUUSD (ทองคำ)",
+    rr: "1 : 3",
+    keyBehavior: "Demand ส่งเบรก → Flip → Retest Entry (ตามเทรนด์)",
+    detail: '<h4>🔬 เจาะลึกเทคนิค Break Block Follow Trend</h4>' +
+      '<div class="dd-row"><b>โครงสร้าง</b><span>เทรนด์ขาขึ้นของจริง: เกิด 2 High 2 Low (HL/HH) → Expansion + BOS ทำลาย High เดิม → ราคาย้อนกลับมาเคลียร์ Liquidity ที่โซน "ส่งเบรก"</span></div>' +
+      '<div class="dd-row"><b>ตรรกะสถาบัน (Change of Power)</b><span>โซน Demand ที่เคยดันราคาขึ้นไปทำ BOS = โซน "เคยชนะ" เมื่อราคากลับมาทดสอบ แนวต้านเดิม Flip เป็นแนวรับ (SR) รายใหญ่ส่งคำสั่งซื้อเพิ่มในทิศทางใหม่</span></div>' +
+      '<div class="dd-row entry"><b>จุดเข้า (Entry)</b><span>ตั้ง Buy Limit ที่ Break Block (Demand ส่งเบรก) — เล่นทั้งสวิงหรือภายในระยะไส้เทียน อย่ารีดโซนจนตกรถ</span></div>' +
+      '<div class="dd-row warn"><b>Stop Loss</b><span>ใต้กรอบโซน Break Block (ต่ำกว่าจุดที่ราคากวาด Liquidity เล็กน้อย)</span></div>' +
+      '<div class="dd-row entry"><b>Take Profit / RR</b><span>เป้าที่สภาพคล่องเหนือ HH เดิม (Draw on Liquidity) — RR ประมาณ 1:3 ขึ้นไป (Power of Patience)</span></div>' +
+      '<div class="dd-row warn"><b>ข้อผิดพลาดที่พบบ่อย</b><span>"รีดโซน (Refining)" ให้แคบเพื่อหวัง RR สูงลิ่ว → ตกรถซ้ำ ๆ / หรือเข้าตั้งแต่ยังไม่เห็น BOS ใน External Range</span></div>' +
+      '<div class="dd-row psy"><b>จิตวิทยา</b><span>งานของนักเทรดคือ "การนั่งรอ" — ถ้าราคาอยู่นอกเงื่อนไข (Out of Alignment) ต้องนิ่งเฉย รักษาทุนไว้รอจังหวะที่ชัดเจนที่สุด</span></div>',
+    bias: "📈 Buy Bias",
+    refImage: "ninja-smc/diagrams/bb_02_power.svg",
+    candles: [
+      {o:315,h:308,l:322,c:318},{o:318,h:300,l:322,c:305},{o:305,h:285,l:310,c:290},
+      {o:290,h:285,l:301,c:297},{o:297,h:255,l:301,c:260},{o:260,h:255,l:273,c:269},
+      {o:269,h:235,l:273,c:240},{o:240,h:176,l:244,c:182},
+      {o:182,h:178,l:206,c:201},{o:201,h:196,l:223,c:219},{o:219,h:214,l:239,c:234},
+      {o:234,h:229,l:246,c:242},{o:242,h:237,l:248,c:244},{o:244,h:226,l:248,c:231},
+      {o:231,h:200,l:235,c:205},{o:205,h:170,l:209,c:175},{o:175,h:138,l:179,c:143},
+      {o:143,h:138,l:158,c:153},{o:153,h:116,l:157,c:120},{o:120,h:104,l:124,c:108},
+      {o:108,h:104,l:130,c:126},{o:126,h:121,l:146,c:141},{o:141,h:136,l:159,c:154},
+      {o:154,h:149,l:170,c:166},{o:166,h:161,l:181,c:176},{o:176,h:171,l:191,c:186},
+      {o:186,h:164,l:190,c:168},{o:168,h:163,l:185,c:181},{o:181,h:158,l:184,c:162},
+      {o:162,h:157,l:172,c:167},{o:167,h:143,l:171,c:148},{o:148,h:143,l:160,c:155},
+      {o:152,h:129,l:156,c:134},{o:134,h:111,l:138,c:116},{o:116,h:111,l:127,c:123},
+      {o:123,h:99,l:127,c:104},{o:104,h:84,l:108,c:89},{o:89,h:69,l:93,c:74},
+      {o:74,h:60,l:79,c:65},{o:65,h:58,l:77,c:72}
+    ],
+    steps: [
+      {
+        title: "ขั้นตอนที่ 1: ยืนยันเทรนด์ของจริง (2 High 2 Low)",
+        commentary: "<b>โครงสร้าง External:</b> รอให้ตลาดเผยทิศทางผ่าน <b>2 High + 2 Low</b> — ราคาทำ Higher Low (HL) และเตรียมทำ Higher High = เทรนด์ขาขึ้น \"ของจริง\" ที่มี Edge สูง<br><br>👉 <b>แผน:</b> ห้ามเข้าเทรดถ้ายังไม่เห็นโครงสร้างครบและยังไม่เบรกกรอบ External (การแกว่งภายในคือ Noise) <i>(คลิก [▶ ถัดไป] เพื่อดู Expansion + BOS)</i>",
+        badge: "2H / 2L TREND",
+        emotion: "🟡 เสียงโค้ชกระซิบ: 'ยังไม่ครบเงื่อนไข อย่าเพิ่งเข้า! งานเราคือการนั่งรอ ไม่ใช่กดออเดอร์ทั้งวัน'",
+        visibleCandles: 13
+      },
+      {
+        title: "ขั้นตอนที่ 2: Expansion + BOS ทำลายโครงสร้างเดิม",
+        commentary: "<b>หลักฐานรายใหญ่:</b> เกิดแท่ง <b>Expansion</b> พุ่งแรงทำลาย High เดิม (BOS) ทิ้ง <b>FVG/Imbalance</b> ไว้ข้างหลัง = ราคาวิ่งเร็วจนรายใหญ่ \"เก็บของไม่ครบ\" จึงต้องย้อนกลับมาเติม<br><br>👉 <b>So What:</b> นี่คือสัญญาณว่าโซนที่ส่งเบรกมานั้นมีนัยสำคัญ เตรียมหา Break Block <i>(คลิก [▶ ถัดไป] เพื่อรอราคาย้อนกลับ)</i>",
+        badge: "EXPANSION + BOS",
+        emotion: "🟢 เสียงโค้ชกระซิบ: 'เห็น BOS ชัดเจนแล้ว! แต่ยังไม่ไล่ราคานะ — มืออาชีพรอราคากลับมาหาเราที่โซนส่งเบรก'",
+        visibleCandles: 20
+      },
+      {
+        title: "ขั้นตอนที่ 3: ราคาย้อนเคลียร์ Liquidity เข้าโซน Break Block",
+        commentary: "<b>Retrace & Clearance:</b> ราคาไหลกลับลงมาเคลียร์สภาพคล่อง (Internal) เข้าสู่โซน <b>Break Block (Demand ส่งเบรก)</b> ที่แนวต้านเดิม Flip กลายเป็นแนวรับ (SR) และกวาด Liquidity ที่ก้นโซน<br><br>👉 <b>ยังไม่เข้า!</b> การแตะโซนเฉย ๆ ยังไม่พอ — ต้องรอ <b>Internal Break (N)</b> ยืนยันก่อน เพื่อกันการแตะโซนหลอก <i>(คลิก [▶ ถัดไป] เพื่อดู N เบรกเล็กในโซน)</i>",
+        badge: "BREAK BLOCK RETEST",
+        emotion: "🔴 เสียงโค้ชกระซิบ: 'ราคาย่อลงแรง ทรงดูจะพังไหม?' → ใจเย็น! นี่คือการเคลียร์ Liquidity ตามแผน โซนยังไม่หลุด รอ N เบรกก่อน",
+        visibleCandles: 26
+      },
+      {
+        title: "ขั้นตอนที่ 4: เกิด Internal Break (N) — เข้า Buy",
+        commentary: "<b>Entry Trigger (N เบรกเล็กในโซน):</b> ในโซน ราคาทำ <b>Internal High</b> → ย่อทำ <b>Higher Low</b> (mini CHoCH) → แล้ว <b>เบรก Internal High (mini BOS)</b> = สัญญาณยืนยันเข้า Buy<br><br>👉 <b>วินัยจุดเข้า:</b> เข้าเมื่อ N เบรกจบ วาง <b>SL ใต้กรอบโซน</b> · เล่นทั้งสวิง/ไส้เทียน อย่ารีดโซนจน RR เพ้อฝัน <i>(คลิก [▶ ถัดไป] เพื่อรันเป้า)</i>",
+        badge: "INTERNAL BOS ENTRY",
+        emotion: "🟢 เสียงโค้ชกระซิบ: 'N เบรกจบแล้ว = ของจริง! วาง Buy + SL ใต้โซน แล้ว Set & Forget — ปล่อยให้ระบบทำงาน'",
+        visibleCandles: 29
+      },
+      {
+        title: "ขั้นตอนที่ 5: Set & Forget — ราคาวิ่งตามเทรนด์ชน TP",
+        commentary: "<b>Reward of Patience:</b> หลังเข้าตามโครงสร้าง ราคาทะยานขึ้นตามเทรนด์ทำ Higher High ใหม่ ชนเป้าหมายที่สภาพคล่องถัดไป<br><br>📈 <b>บทสรุป:</b> ยอมเสี่ยงน้อย (SL สั้นใต้โซน) เพื่อกำไรก้อนใหญ่ตามเทรนด์ = R:R 1:3 — กลยุทธ์ Fractal นี้ทำซ้ำได้ในทุก Timeframe ที่มีเทรนด์ชัด",
+        badge: "TARGET HIT 🎉",
+        emotion: "🟢 เสียงโค้ชกระซิบ: 'กำไรตามแผน! ความสม่ำเสมอคือผลลัพธ์ของความเข้าใจที่แท้จริง ไม่ใช่ความซับซ้อน'",
+        visibleCandles: 40
+      }
+    ]
   }
 };
 
@@ -5556,7 +5993,7 @@ function drawBacktestChart() {
   // Scenario overlays (same 800x400 coordinate space → aligned to anchors)
   const ovFns = { 1: drawScenario1Overlays, 2: drawScenario2Overlays, 3: drawScenario3Overlays,
                   4: drawScenario4Overlays, 5: drawScenario5Overlays, 6: drawScenario6Overlays,
-                  7: drawScenario7Overlays, 8: drawScenario8Overlays };
+                  7: drawScenario7Overlays, 8: drawScenario8Overlays, 9: drawScenario9Overlays };
   if (ovFns[btActiveScenario]) ovFns[btActiveScenario](btCtx, startX, spacing, btActiveStep);
 }
 
@@ -5635,6 +6072,57 @@ function drawScenario8Overlays(ctx, startX, spacing, stepIdx) {
     ctx.font = '10px Space Grotesk'; ctx.fillText('Buy Entry', entryX + 9, 252);
     ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.arc(targetX, 90, 5, 0, Math.PI*2); ctx.fill();
     ctx.fillText('TP (Markup)', targetX - 66, 84);
+  }
+}
+
+function drawScenario9Overlays(ctx, startX, spacing, stepIdx) {
+  if (stepIdx >= 1) {
+    drawNode(startX + 0 * spacing, 318, 'Low 1', '#475569', ctx);
+    drawNode(startX + 7 * spacing, 182, 'High 1', '#ef4444', ctx);
+    drawNode(startX + 12 * spacing, 244, 'Low 2 (HL)', '#0d9488', ctx);
+    ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(startX + 7 * spacing, 182); ctx.lineTo(startX + 19 * spacing, 182); ctx.stroke(); ctx.setLineDash([]);
+  }
+  if (stepIdx >= 2) {
+    drawNode(startX + 19 * spacing, 108, 'High 2 (HH)', '#0d9488', ctx);
+    ctx.fillStyle = '#0d9488'; ctx.font = '9px Space Grotesk';
+    ctx.fillText('BOS ↑ (Expansion)', startX + 13.2 * spacing, 178);
+    ctx.fillStyle = 'rgba(245,158,11,0.10)'; ctx.fillRect(startX + 14.6 * spacing, 150, 2.4 * spacing, 30);
+    ctx.strokeStyle = 'rgba(217,119,6,0.45)'; ctx.setLineDash([4, 3]); ctx.strokeRect(startX + 14.6 * spacing, 150, 2.4 * spacing, 30); ctx.setLineDash([]);
+    ctx.fillStyle = '#b45309'; ctx.fillText('FVG', startX + 15.1 * spacing, 146);
+  }
+  if (stepIdx >= 3) {
+    // Break Block zone (Demand ส่งเบรก) at the broken High-1 level
+    ctx.fillStyle = 'rgba(16,185,129,0.08)'; ctx.fillRect(startX + 24 * spacing, 170, 5.4 * spacing, 22);
+    ctx.strokeStyle = 'rgba(16,185,129,0.45)'; ctx.setLineDash([4, 3]); ctx.strokeRect(startX + 24 * spacing, 170, 5.4 * spacing, 22); ctx.setLineDash([]);
+    ctx.fillStyle = '#0d9488'; ctx.font = '9px Space Grotesk';
+    ctx.fillText('Break Block (Demand ส่งเบรก)', startX + 23.4 * spacing, 166);
+    // flip support line
+    ctx.strokeStyle = '#10b981'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(startX + 19 * spacing, 182); ctx.lineTo(startX + 38 * spacing, 182); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#10b981'; ctx.fillText('Flip → Support (SR)', startX + 31 * spacing, 178);
+    // liquidity sweep (deepest tap, candle 25)
+    const sx = startX + 25 * spacing;
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(sx, 191, 10, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = 'rgba(220,38,38,0.10)'; ctx.fill();
+    ctx.fillStyle = '#dc2626'; ctx.fillText('Clear Liquidity', sx - 26, 210);
+  }
+  if (stepIdx >= 4) {
+    // Internal Break "N": Internal High (26) → Higher Low (27) → Internal BOS entry (28)
+    drawNode(startX + 26 * spacing, 164, 'Internal High', '#6366f1', ctx);
+    ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([4, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(startX + 26 * spacing, 164); ctx.lineTo(startX + 29 * spacing, 164); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#6366f1'; ctx.font = '9px Space Grotesk';
+    ctx.fillText('N เบรกเล็ก (mini CHoCH→BOS)', startX + 25.4 * spacing, 226);
+    ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.arc(startX + 28 * spacing, 162, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.font = '10px Space Grotesk'; ctx.fillText('Buy Entry (Internal BOS)', startX + 28 * spacing + 8, 158);
+  }
+  if (stepIdx >= 5) {
+    const entryX = startX + 28 * spacing, targetX = startX + 38 * spacing;
+    drawTradingViewBox(ctx, entryX, targetX, 162, 200, 68);
+    ctx.fillStyle = '#dc2626'; ctx.font = '9px Space Grotesk'; ctx.fillText('SL', startX + 34.5 * spacing, 197);
+    ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.arc(targetX, 68, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillText('TP (RR 1:3+)', targetX - 60, 62);
   }
 }
 
@@ -6245,5 +6733,45 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initVIPNotes, 500);
 });
 </script>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<script>
+function toggleMobileSidebar(btn) {
+  const tab = btn.closest('.tab-content');
+  const sidebar = tab.querySelector('.guide-sidebar, .ebook-sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('open');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar.classList.contains('open')) {
+      backdrop.classList.add('show');
+      backdrop.onclick = function() {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('show');
+      };
+      
+      // Auto-close when clicking a link
+      const links = sidebar.querySelectorAll('a');
+      links.forEach(l => {
+        l.onclick = function() {
+          sidebar.classList.remove('open');
+          backdrop.classList.remove('show');
+        }
+      });
+      
+      // For VIP Notes chapter buttons
+      const chBtns = sidebar.querySelectorAll('.ebook-ch-btn');
+      chBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          sidebar.classList.remove('open');
+          backdrop.classList.remove('show');
+        });
+      });
+    } else {
+      backdrop.classList.remove('show');
+    }
+  }
+}
+</script>
+
 </body>
 </html>
