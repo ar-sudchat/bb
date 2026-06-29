@@ -2,6 +2,8 @@
 *
 
 !nginx.conf
+!docker-entrypoint.d
+!docker-entrypoint.d/**
 !index.html
 !marked.min.js
 !vip_knowledge_db.js
