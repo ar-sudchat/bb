@@ -14,8 +14,8 @@ RUN chmod +x /docker-entrypoint.d/40-basic-auth.sh
 WORKDIR /usr/share/nginx/html
 RUN rm -f ./*
 
-# App entry + libs + favicon
-COPY index.html marked.min.js vip_knowledge_db.js favicon.svg ./
+# App entry + login page + libs + favicon
+COPY index.html login.html marked.min.js vip_knowledge_db.js favicon.svg ./
 
 # Root images referenced by CSS url()
 COPY academy_hero.png ninja_concept.png reaper_concept.png ./

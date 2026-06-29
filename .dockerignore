@@ -5,6 +5,7 @@
 !docker-entrypoint.d
 !docker-entrypoint.d/**
 !index.html
+!login.html
 !marked.min.js
 !vip_knowledge_db.js
 !favicon.svg
