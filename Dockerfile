@@ -24,6 +24,9 @@ COPY academy_hero.png ninja_concept.png reaper_concept.png ./
 COPY BB/ ./BB/
 COPY NinjaThai/ ./NinjaThai/
 
+# Diagrams referenced by the VIP knowledge chapters (vip_knowledge_db.js)
+COPY ninja-smc/diagrams/ ./ninja-smc/diagrams/
+
 # All referenced PDFs (compressed). vip pdt/ has a space → JSON COPY form.
 COPY pdf/ ./pdf/
 COPY ["vip pdt/", "./vip pdt/"]

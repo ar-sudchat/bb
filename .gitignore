@@ -10,8 +10,9 @@ check_js.js
 reaper-study-guide.html
 smc-x-pattern-guide.html
 
-# Unused heavy folders
-ninja-smc/
+# Unused heavy folders (but keep the diagram SVGs/PNGs the knowledge base references)
+ninja-smc/*
+!ninja-smc/diagrams/
 สรุปความรู้-ปลดล็อคการเทรด/
 
 # vip pdt/: ship only the 7 referenced PDFs (compressed); ignore the rest (banners, xlsx, zip)
