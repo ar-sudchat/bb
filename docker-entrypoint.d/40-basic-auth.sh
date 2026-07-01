@@ -11,6 +11,7 @@ htpasswd -bc /etc/nginx/.htpasswd "$AUTH_USER" "$AUTH_PASS" >/dev/null 2>&1
 
 TOKEN="${SMC_AUTH_TOKEN:-$(head -c 24 /dev/urandom | od -An -tx1 | tr -d ' \n')}"
 cat > /etc/nginx/conf.d/00-auth.conf <<EOF
+map_hash_bucket_size 128;
 map \$cookie_smc_auth \$smc_ok   { default 0; "$TOKEN" 1; }
 map \$host           \$smc_token { default "$TOKEN"; }
 EOF
